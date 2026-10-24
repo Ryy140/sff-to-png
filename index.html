@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="Prince Ryy">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Konverter SFF ke PNG</title>
+<style>
+:root{--bg1:#080c14;--bg2:#0e1524;--bg3:#101c30;--card:rgba(20,28,45,.82);--text:#e8eefc;--muted:#8d9bb8;--border:rgba(90,140,255,.28);--accent:#3b82f6;--accent2:#22d3ee;--hot:#f97316;--err:#ff6b6b;--grid:rgba(110,150,255,.06);--ck1:#3a4256;--ck2:#2a3144;--shadow:0 10px 28px rgba(0,0,0,.45)}
+@media(prefers-color-scheme:light){:root{--bg1:#e9eef6;--bg2:#dfe7f2;--bg3:#d4e0ef;--card:rgba(255,255,255,.88);--text:#111827;--muted:#475569;--border:rgba(37,99,235,.28);--accent:#2563eb;--accent2:#0891b2;--hot:#ea580c;--err:#c0264b;--grid:rgba(37,99,235,.06);--ck1:#cfd5e2;--ck2:#e8ebf2;--shadow:0 10px 24px rgba(30,60,120,.18)}}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:linear-gradient(160deg,var(--bg1),var(--bg2) 55%,var(--bg3)) fixed;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:28px 16px 56px}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:22px}
+.hero h1{margin:0 0 8px;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1.15;font-weight:900;text-transform:uppercase;letter-spacing:.04em;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:0;color:var(--muted);max-width:440px}
+.steps{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0;list-style:none}
+.steps li{padding:6px 12px;border-radius:6px;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--hot);font-size:.85rem;font-weight:600}
+.steps b{color:var(--hot)}
+.mascot-box{position:relative;flex:none;width:180px}
+.mascot{width:100%;height:auto;display:block;animation:float 4s ease-in-out infinite;filter:drop-shadow(0 10px 16px rgba(34,211,238,.25))}
+.bubble{position:absolute;top:0;left:-40px;padding:6px 12px;border-radius:8px;background:var(--hot);color:#fff;font-size:.8rem;font-weight:800;box-shadow:var(--shadow);z-index:2}
+.bubble:after{content:"";position:absolute;right:16px;bottom:-5px;width:11px;height:11px;background:var(--hot);transform:rotate(45deg)}
+.eye{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
+.sp{transform-box:fill-box;transform-origin:center;animation:twinkle 2.4s ease-in-out infinite}
+.drop{display:flex;flex-direction:column;align-items:center;gap:6px;padding:44px 16px;text-align:center;cursor:pointer;background:var(--card);backdrop-filter:blur(6px);border:2px dashed var(--accent);border-radius:12px;box-shadow:var(--shadow);transition:transform .15s,border-color .15s,box-shadow .15s}
+.drop .ico{font-size:2.4rem}.drop strong{font-size:1.1rem;text-transform:uppercase;letter-spacing:.05em}.drop span{color:var(--muted);font-size:.9rem}
+.drop:hover,.drop.over{transform:translateY(-2px);border-color:var(--hot);box-shadow:0 0 0 3px rgba(249,115,22,.18),var(--shadow)}
+.status{min-height:1.4em;margin:14px 2px;font-size:.95rem;color:var(--muted)}
+.status.error{color:var(--err);font-weight:700}
+button{padding:10px 20px;border:0;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;font:inherit;font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:.85rem;cursor:pointer;box-shadow:0 6px 16px rgba(59,130,246,.35);transition:transform .15s}
+button:hover{transform:translateY(-1px)}button:disabled{opacity:.6;cursor:wait}
+button.alt{background:transparent;color:var(--text);border:1px solid var(--border);box-shadow:none}
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px}
+.bar label{display:flex;gap:6px;align-items:center;font-size:.9rem}.grow{flex:1}
+.tip{margin:10px 2px 0;font-size:.85rem;color:var(--muted)}
+details{margin:10px 2px 0;color:var(--muted);font-size:.9rem}details summary{cursor:pointer}
+.adv{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+.adv label{display:flex;gap:6px;align-items:center}
+input[type=text],input[type=number]{padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);font:inherit}
+input[type=checkbox]{accent-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:16px}
+.cell{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px;box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
+.cell:hover{transform:translateY(-3px);border-color:var(--accent2)}
+.cell .sel{display:flex;gap:6px;align-items:center;margin-bottom:6px;font-size:.75rem;color:var(--muted)}
+.cell input[type=text]{width:100%;font-size:.8rem;padding:6px 8px}
+.thumb{height:110px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;border-radius:6px;cursor:pointer;background:repeating-conic-gradient(var(--ck1) 0 25%,var(--ck2) 0 50%) 0 0/16px 16px}
+.thumb canvas{max-width:100%;max-height:110px;image-rendering:pixelated}
+.credit{margin-top:36px;text-align:center;font-size:.85rem;color:var(--muted);letter-spacing:.04em}
+.credit b{color:var(--hot);font-weight:800}
+.ember{position:fixed;bottom:-12px;width:4px;height:4px;border-radius:50%;background:var(--hot);box-shadow:0 0 8px 2px rgba(249,115,22,.55);opacity:.8;pointer-events:none;z-index:0;animation:rise linear infinite}
+.ember:nth-child(3n){background:var(--accent2);box-shadow:0 0 8px 2px rgba(34,211,238,.5)}
+@keyframes fade{from{opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{transform:translate(-50%,-50%) scale(1.25)}}
+@keyframes dot{40%{opacity:1}}
+@keyframes slide{from{transform:translateX(-100%) scaleX(.4)}to{transform:translateX(250%) scaleX(.4)}}
+.loader{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(4,8,16,.6);backdrop-filter:blur(6px);animation:fade .2s}
+.lcard{width:min(310px,86vw);padding:28px 22px 24px;text-align:center;background:var(--card);border:1px solid var(--border);border-top:3px solid var(--hot);border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.ow{position:relative;width:104px;height:104px;margin:0 auto 14px}
+.orbit{position:absolute;inset:0;animation:spin 2.4s linear infinite}
+.orbit i{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:2px;background:linear-gradient(135deg,var(--accent2),var(--accent));transform:rotate(calc(var(--n)*45deg)) translateY(-44px) rotate(45deg);opacity:calc(1 - var(--n)*.12)}
+.orbit i:nth-child(1){--n:0}.orbit i:nth-child(2){--n:1}.orbit i:nth-child(3){--n:2}.orbit i:nth-child(4){--n:3}.orbit i:nth-child(5){--n:4}.orbit i:nth-child(6){--n:5}.orbit i:nth-child(7){--n:6}.orbit i:nth-child(8){--n:7}
+.ow b{position:absolute;left:50%;top:50%;font-size:2rem;transform:translate(-50%,-50%);animation:pulse 1.4s ease-in-out infinite}
+.ltitle{font-weight:900;font-size:1.05rem;text-transform:uppercase;letter-spacing:.06em;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.dots u{text-decoration:none;opacity:.2;animation:dot 1.2s infinite}.dots u:nth-child(2){animation-delay:.2s}.dots u:nth-child(3){animation-delay:.4s}
+.lsub{margin-top:4px;font-size:.85rem;color:var(--muted);min-height:1.2em}
+.lbar{height:8px;border-radius:4px;background:var(--border);overflow:hidden;margin-top:16px}
+.lbar em{display:block;height:100%;width:100%;border-radius:4px;background:linear-gradient(90deg,var(--hot),var(--accent2));transform-origin:left;animation:slide 1.4s ease-in-out infinite}
+.lbar.det em{animation:none;transition:transform .2s;transform:scaleX(0)}
+@keyframes rise{to{transform:translate(var(--dx,20px),-110vh);opacity:0}}
+@keyframes float{50%{transform:translateY(-8px)}}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+@keyframes twinkle{50%{transform:scale(.4) rotate(45deg);opacity:.5}}
+@media(max-width:640px){.hero{flex-direction:column-reverse;text-align:center}.hero p{margin:0 auto}.steps{justify-content:center}.mascot-box{width:150px}.bubble{left:-60px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}.ember{display:none}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="hero">
+  <div>
+    <h1>Konverter SFF → PNG</h1>
+    <p>Ubah file sprite M.U.G.E.N (.sff) menjadi gambar PNG. Semua diproses di browser Anda, file tidak diunggah ke mana pun.</p>
+    <ol class="steps"><li><b>1</b> Pilih file</li><li><b>2</b> Lihat gambarnya</li><li><b>3</b> Unduh</li></ol>
+  </div>
+  <div class="mascot-box">
+    <div class="bubble">Prince Ryy 👑</div>
+    <svg class="mascot" viewBox="0 0 200 230" aria-hidden="true">
+      <defs>
+        <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f4b69"/><stop offset="1" stop-color="#141a2b"/></linearGradient>
+        <radialGradient id="iris" cx=".5" cy=".35" r=".8"><stop offset="0" stop-color="#a5f3ff"/><stop offset="1" stop-color="#0ea5c6"/></radialGradient>
+        <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#d99a14"/></linearGradient>
+      </defs>
+      <rect x="88" y="156" width="24" height="26" rx="6" fill="#dcae92"/>
+      <path d="M42 230C44 186 68 172 100 172C132 172 156 186 158 230Z" fill="#10141f"/>
+      <path d="M72 174L100 210L84 230L58 230Z" fill="#1c2436"/>
+      <path d="M128 174L100 210L116 230L142 230Z" fill="#1c2436"/>
+      <path d="M84 174L100 208L116 174Z" fill="#f8fafc"/>
+      <path d="M100 182L84 172L84 192Z" fill="#f97316"/><path d="M100 182L116 172L116 192Z" fill="#f97316"/><circle cx="100" cy="182" r="4" fill="#ea580c"/>
+      <circle cx="100" cy="214" r="2.6" fill="url(#gold)"/><circle cx="100" cy="224" r="2.6" fill="url(#gold)"/>
+      <path d="M50 214L72 204M150 214L128 204" stroke="url(#gold)" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="54" cy="122" r="7" fill="#f2cdb3"/><circle cx="146" cy="122" r="7" fill="#f2cdb3"/>
+      <ellipse cx="100" cy="116" rx="47" ry="46" fill="#f6d7bf"/>
+      <path d="M54 114C54 152 76 172 100 172C124 172 146 152 146 114Z" fill="#f6d7bf"/>
+      <ellipse cx="66" cy="140" rx="8" ry="4.5" fill="#f4a3a0" opacity=".45"/><ellipse cx="134" cy="140" rx="8" ry="4.5" fill="#f4a3a0" opacity=".45"/>
+      <g class="eye"><ellipse cx="78" cy="124" rx="12" ry="9.5" fill="#fff"/><circle cx="78" cy="124.5" r="7" fill="url(#iris)"/><circle cx="78" cy="124.5" r="3.2" fill="#0b1220"/><circle cx="75.5" cy="122" r="2.2" fill="#fff"/><path d="M65 122Q78 113 92 121" stroke="#0b1220" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+      <g class="eye"><ellipse cx="122" cy="124" rx="12" ry="9.5" fill="#fff"/><circle cx="122" cy="124.5" r="7" fill="url(#iris)"/><circle cx="122" cy="124.5" r="3.2" fill="#0b1220"/><circle cx="119.5" cy="122" r="2.2" fill="#fff"/><path d="M108 121Q122 113 135 122" stroke="#0b1220" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+      <path d="M64 110Q78 103 94 109" stroke="#232b42" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+      <path d="M106 109Q122 103 136 110" stroke="#232b42" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+      <path d="M100 132L97 142L103 142" stroke="#c9967a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M88 150Q100 160 112 150" stroke="#9a5a48" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+      <path d="M50 114C42 80 58 48 100 42C142 48 158 80 150 114C146 98 140 86 128 80C112 90 90 82 74 76C62 84 54 98 50 114Z" fill="url(#hair)"/>
+      <path d="M92 42C110 26 136 30 146 50C130 44 114 46 102 58Z" fill="#4a5879"/>
+      <path d="M50 114C48 128 50 136 54 142C58 130 58 122 58 114Z" fill="url(#hair)"/>
+      <path d="M150 114C152 128 150 136 146 142C142 130 142 122 142 114Z" fill="url(#hair)"/>
+      <path d="M70 54L66 30L84 42L100 22L116 42L134 30L130 54Z" fill="url(#gold)" stroke="#b9791a" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M71 49L129 49" stroke="#b9791a" stroke-width="2"/>
+      <circle cx="66" cy="30" r="3.6" fill="#22d3ee"/><circle cx="100" cy="22" r="4" fill="#f97316"/><circle cx="134" cy="30" r="3.6" fill="#22d3ee"/>
+      <g transform="translate(24 60)"><path class="sp" d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#22d3ee"/></g>
+      <g transform="translate(182 118)"><path class="sp" style="animation-delay:.8s" d="M0-7Q0 0 7 0Q0 0 0 7Q0 0-7 0Q0 0 0-7Z" fill="#f97316"/></g>
+      <g transform="translate(172 30)"><path class="sp" style="animation-delay:1.5s" d="M0-6Q0 0 6 0Q0 0 0 6Q0 0-6 0Q0 0 0-6Z" fill="#ffe08a"/></g>
+    </svg>
+  </div>
+</header>
+
+<label id="drop" class="drop"><input type="file" id="file" accept=".sff" hidden>
+  <span class="ico">📂</span><strong>Seret file .sff ke sini</strong><span>atau klik untuk memilih file</span></label>
+<p id="status" class="status"></p>
+
+<section id="bar" hidden>
+  <div class="bar">
+    <label><input type="checkbox" id="all" checked> Pilih semua</label>
+    <span class="grow"></span>
+    <label>Nama ZIP <input type="text" id="zipName" placeholder="nama file" style="width:170px"><span style="color:var(--muted)">.zip</span></label>
+    <button id="zipBtn" type="button">⬇ Unduh ZIP</button>
+  </div>
+  <p class="tip">Klik gambar untuk mengunduh satu PNG. Nama file bisa diubah di bawah gambar.</p>
+  <details>
+    <summary>Penamaan massal (opsional)</summary>
+    <div class="adv">
+      <label>Awalan <input type="text" id="prefix" placeholder="mis. kfm" style="width:130px"></label>
+      <label>Mulai dari <input type="number" id="start" value="0" min="0" style="width:80px"></label>
+      <button id="apply" class="alt" type="button">Beri nama berurutan</button>
+      <button id="reset" class="alt" type="button">Reset nama</button>
+    </div>
+  </details>
+</section>
+<section id="grid" class="grid"></section>
+<footer class="credit">Dibuat oleh <b>Prince Ryy</b> 👑</footer>
+</main>
+<div id="loader" class="loader" hidden role="status" aria-live="polite">
+  <div class="lcard">
+    <div class="ow"><div class="orbit"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><b>⚡</b></div>
+    <div class="ltitle"><span id="ltxt">Memproses</span><span class="dots"><u>.</u><u>.</u><u>.</u></span></div>
+    <div class="lsub" id="lsub"></div>
+    <div class="lbar" id="lbar"><em id="lfill"></em></div>
+  </div>
+</div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const u16=(d,o)=>d[o]|d[o+1]<<8,u32=(d,o)=>(d[o]|d[o+1]<<8|d[o+2]<<16|d[o+3]<<24)>>>0,s16=(d,o)=>u16(d,o)<<16>>16;
+const GRAY=new Uint8Array(1024).map((_,i)=>i%4==3?255:i>>2);
+
+function mk(w,h){const c=document.createElement('canvas');c.width=Math.max(1,w);c.height=Math.max(1,h);return c}
+function clone(s){const c=mk(s.width,s.height);c.getContext('2d').drawImage(s,0,0);return c}
+function paint(ix,w,h,pal){
+  const c=mk(w,h),x=c.getContext('2d'),im=x.createImageData(c.width,c.height),p=im.data;
+  for(let i=0;i<w*h;i++){const v=ix[i];if(!v)continue;p[i*4]=pal[v*4];p[i*4+1]=pal[v*4+1];p[i*4+2]=pal[v*4+2];p[i*4+3]=255}
+  x.putImageData(im,0,0);return c;
+}
+
+/* ---- Dekompresi SFF v2 ---- */
+function rle8(s,n){const o=new Uint8Array(n);let i=0,j=0;
+  while(j<n&&i<s.length){const b=s[i++];if((b&0xC0)===0x40){let k=b&0x3F;const c=s[i++];while(k--&&j<n)o[j++]=c}else o[j++]=b}
+  return o}
+function rle5(s,n){const o=new Uint8Array(n);let i=0,j=0;
+  while(i<s.length&&j<n){
+    let rl=s[i++],dl=s[i]&0x7f,c=0;if(s[i]>>7)c=s[++i];i++;
+    for(;;){if(j<n)o[j++]=c;if(--rl<0){if(--dl<0||i>=s.length)break;c=s[i]&0x1f;rl=s[i++]>>5}}
+  }
+  return o}
+function lz5(s,n){const o=new Uint8Array(n);let i=0,j=0,ct=s[i++],cts=0,rb=0,rbc=0;
+  while(j<n&&i<s.length){
+    let d=s[i++],k;
+    if(ct&(1<<cts)){
+      if((d&0x3f)===0){d=((d<<2)|s[i++])+1;k=s[i++]+2}
+      else{rb|=(d&0xc0)>>rbc;rbc+=2;k=d&0x3f;if(rbc<8)d=s[i++]+1;else{d=rb+1;rb=0;rbc=0}}
+      for(;k>=0;k--){if(j<n){o[j]=o[j-d];j++}}
+    }else{
+      if((d&0xe0)===0){k=s[i++]+8}else{k=d>>5;d&=0x1f}
+      for(;k>0;k--){if(j<n)o[j++]=d}
+    }
+    if(++cts>=8){ct=s[i++];cts=0}
+  }
+  return o}
+
+/* ---- PCX (SFF v1) ---- */
+function pcx(b,same,prev){
+  const w=u16(b,8)-u16(b,4)+1,h=u16(b,10)-u16(b,6)+1,bpl=u16(b,66),tot=bpl*(b[65]||1)*h;
+  let own=null;
+  if(b.length>=897&&b[b.length-769]===12){own=new Uint8Array(1024);const q=b.subarray(b.length-768);
+    for(let i=0;i<256;i++){own[i*4]=q[i*3];own[i*4+1]=q[i*3+1];own[i*4+2]=q[i*3+2];own[i*4+3]=255}}
+  const pal=(same&&prev)?prev:(own||prev||GRAY);
+  const raw=new Uint8Array(tot);let i=128,j=0;
+  while(j<tot&&i<b.length){let v=b[i++],n=1;if((v&0xC0)===0xC0){n=v&0x3F;v=b[i++]}while(n--&&j<tot)raw[j++]=v}
+  const ix=new Uint8Array(w*h);
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++)ix[y*w+x]=raw[y*bpl+x];
+  return{cv:paint(ix,w,h,pal),pal};
+}
+
+function parseV1(d){
+  const n=u32(d,20);let off=u32(d,24),prev=null;const out=[];
+  for(let i=0;i<n&&off>0&&off+32<=d.length;i++){
+    const next=u32(d,off),len=u32(d,off+4),g=u16(d,off+12),it=u16(d,off+14),link=u16(d,off+16),same=d[off+18];
+    let cv=null;
+    try{
+      if(len===0){if(out[link])cv=clone(out[link].cv)}
+      else{const r=pcx(d.subarray(off+32,off+32+len),same,prev);cv=r.cv;prev=r.pal}
+    }catch(e){}
+    if(cv)out.push({g,it,cv});else out.push({g,it,cv:null});
+    if(!next)break;off=next;
+  }
+  return out;
+}
+
+const FM={},FN={0:'RAW',2:'RLE8',3:'RLE5',4:'LZ5',10:'PNG8',11:'PNG24',12:'PNG32'};
+const fmtInfo=()=>{const k=Object.keys(FM);return k.length?' Format: '+k.map(x=>(FN[x]||x)+'\u00d7'+FM[x]).join(', ')+'.':''};
+const hasColor=pal=>!!pal&&pal.some((v,i)=>i>=4&&i%4<3&&v>0);
+const plteToRgba=q=>{const o=new Uint8Array(1024);for(let i=0;i<Math.min(256,q.length/3|0);i++){o[i*4]=q[i*3];o[i*4+1]=q[i*3+1];o[i*4+2]=q[i*3+2];o[i*4+3]=255}return o};
+/* PNG 8-bit berindeks: ambil indeks piksel mentah (tanpa palet bawaan PNG) */
+async function pngIndexed(raw){
+  const dv=new DataView(raw.buffer,raw.byteOffset,raw.byteLength);
+  let pos=8,w=0,h=0,bd=8,ct=0,plte=null;const idat=[];
+  while(pos+8<=raw.length){
+    const len=dv.getUint32(pos),t=String.fromCharCode(raw[pos+4],raw[pos+5],raw[pos+6],raw[pos+7]),body=raw.subarray(pos+8,pos+8+len);
+    if(t==='IHDR'){w=dv.getUint32(pos+8);h=dv.getUint32(pos+12);bd=raw[pos+16];ct=raw[pos+17]}
+    else if(t==='PLTE')plte=body;else if(t==='IDAT')idat.push(body);else if(t==='IEND')break;
+    pos+=12+len;
+  }
+  if(bd!==8||(ct!==3&&ct!==0))return null;
+  const comp=await new Blob(idat).arrayBuffer();
+  const st=new Blob([comp]).stream().pipeThrough(new DecompressionStream('deflate'));
+  const data=new Uint8Array(await new Response(st).arrayBuffer()),out=new Uint8Array(w*h);
+  for(let y=0;y<h;y++){
+    const f=data[y*(w+1)],base=y*(w+1)+1;
+    for(let x=0;x<w;x++){
+      const a=x?out[y*w+x-1]:0,b=y?out[(y-1)*w+x]:0,c=(x&&y)?out[(y-1)*w+x-1]:0,r=data[base+x];
+      let v;
+      if(f===0)v=r;else if(f===1)v=r+a;else if(f===2)v=r+b;else if(f===3)v=r+((a+b)>>1);
+      else{const pp=a+b-c,pa=Math.abs(pp-a),pb=Math.abs(pp-b),pc=Math.abs(pp-c);v=r+(pa<=pb&&pa<=pc?a:pb<=pc?b:c)}
+      out[y*w+x]=v&255;
+    }
+  }
+  return{w,h,ix:out,plte};
+}
+async function parseV2(d){
+  const sOff=u32(d,36),sN=u32(d,40),pOff=u32(d,44),pN=u32(d,48),lOff=u32(d,52),tOff=u32(d,60);
+  const pals=[];
+  for(let k=0;k<pN;k++){
+    const o=pOff+16*k,num=u16(d,o+4),link=u16(d,o+6),dO=u32(d,o+8),dL=u32(d,o+12);
+    if(dL===0&&pals[link]){pals.push(pals[link]);continue}
+    const p=new Uint8Array(1024);
+    for(let c=0;c<Math.min(num,256);c++){const q=lOff+dO+c*4;p[c*4]=d[q];p[c*4+1]=d[q+1];p[c*4+2]=d[q+2];p[c*4+3]=255}
+    pals.push(p);
+  }
+  const out=[];
+  for(let k=0;k<sN;k++){
+    const o=sOff+28*k,g=u16(d,o),it=u16(d,o+2),w=u16(d,o+4),h=u16(d,o+6),link=u16(d,o+12),fmt=d[o+14],
+          dO=u32(d,o+16),dL=u32(d,o+20),pi=u16(d,o+24),fl=u16(d,o+26);
+    let cv=null;
+    try{
+      FM[fmt]=(FM[fmt]||0)+1;
+      if(dL===0){if(out[link]&&out[link].cv)cv=clone(out[link].cv)}
+      else{
+        const base=(fl&1?tOff:lOff)+dO,raw=d.subarray(base,base+dL);
+        if(fmt>=10){
+          let s=0;while(s<16&&!(raw[s]===0x89&&raw[s+1]===0x50))s++;
+          const png=raw.subarray(s);let r=null;
+          if(fmt===10){try{r=await pngIndexed(png)}catch(e){}}
+          if(r){
+            let pal=pals[pi];
+            if(!hasColor(pal)&&r.plte)pal=plteToRgba(r.plte);
+            cv=paint(r.ix,r.w,r.h,pal||GRAY);
+          }else{
+            const bmp=await createImageBitmap(new Blob([png],{type:'image/png'}));
+            cv=mk(bmp.width,bmp.height);cv.getContext('2d').drawImage(bmp,0,0);
+          }
+        }else{
+          const n=w*h;let ix;
+          if(fmt===0)ix=raw;
+          else{const body=raw.subarray(4);ix=fmt===2?rle8(body,n):fmt===3?rle5(body,n):fmt===4?lz5(body,n):null}
+          if(ix)cv=paint(ix,w,h,pals[pi]||GRAY);
+        }
+      }
+    }catch(e){}
+    out.push({g,it,cv});
+  }
+  return out;
+}
+
+/* ---- ZIP (tanpa kompresi) ---- */
+const T=new Uint32Array(256).map((_,n)=>{for(let k=0;k<8;k++)n=n&1?0xEDB88320^n>>>1:n>>>1;return n>>>0});
+const crc=b=>{let c=-1;for(const x of b)c=T[(c^x)&255]^c>>>8;return(c^-1)>>>0};
+function zip(fs){
+  const enc=new TextEncoder(),P=[],C=[];let off=0,cs=0;
+  for(const f of fs){
+    const nm=enc.encode(f.name),c=crc(f.data),L=f.data.length,h=new DataView(new ArrayBuffer(30));
+    h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x800,true);h.setUint16(12,33,true);
+    h.setUint32(14,c,true);h.setUint32(18,L,true);h.setUint32(22,L,true);h.setUint16(26,nm.length,true);
+    P.push(h.buffer,nm,f.data);
+    const g=new DataView(new ArrayBuffer(46));
+    g.setUint32(0,0x02014b50,true);g.setUint16(4,20,true);g.setUint16(6,20,true);g.setUint16(8,0x800,true);g.setUint16(14,33,true);
+    g.setUint32(16,c,true);g.setUint32(20,L,true);g.setUint32(24,L,true);g.setUint16(28,nm.length,true);g.setUint32(42,off,true);
+    C.push(g.buffer,nm);off+=30+nm.length+L;cs+=46+nm.length;
+  }
+  const e=new DataView(new ArrayBuffer(22));
+  e.setUint32(0,0x06054b50,true);e.setUint16(8,fs.length,true);e.setUint16(10,fs.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+  return new Blob([...P,...C,e.buffer],{type:'application/zip'});
+}
+
+/* ---- UI ---- */
+const statusEl=$('status'),grid=$('grid'),zipBtn=$('zipBtn'),drop=$('drop'),fileInput=$('file');
+let sprites=[],base='sprite';
+const setStatus=(m,err)=>{statusEl.textContent=m;statusEl.classList.toggle('error',!!err)};
+const bar=$('bar'),loader=$('loader'),lbar=$('lbar'),lfill=$('lfill');
+const nextFrame=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(r,30))));
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function showLoader(t,sub){$('ltxt').textContent=t;$('lsub').textContent=sub||'';lbar.classList.remove('det');lfill.style.transform='';loader.hidden=false}
+function setProg(p,sub){lbar.classList.add('det');lfill.style.transform='scaleX('+p+')';if(sub)$('lsub').textContent=sub}
+const hideLoader=()=>{loader.hidden=true};
+const clean=n=>n.replace(/[\\/:*?"<>|]/g,'_').replace(/\.png$/i,'').trim();
+const defName=s=>`${base}_${s.g}-${s.it}`;
+const nameOf=s=>(clean(s.name||'')||defName(s))+'.png';
+const toBlob=c=>new Promise(r=>c.toBlob(r,'image/png'));
+function save(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+
+async function handle(file){
+  if(!file)return;
+  grid.innerHTML='';bar.hidden=true;$('all').checked=true;sprites=[];
+  base=file.name.replace(/\.sff$/i,'');$('zipName').value=base+'_png';
+  setStatus('');showLoader('Membaca sprite','Mohon tunggu sebentar');const t0=Date.now();for(const k in FM)delete FM[k];await nextFrame();
+  try{
+    const d=new Uint8Array(await file.arrayBuffer());
+    const sig=String.fromCharCode(...d.slice(0,11));
+    let list;
+    if(sig==='ElecbyteSpr'){
+      const ver=d[15];
+      if(ver===1)list=parseV1(d);else if(ver===2)list=await parseV2(d);
+      else throw new Error('Versi SFF M.U.G.E.N tidak dikenal: '+ver);
+    }else if(sig.startsWith('Sfff')){
+      throw new Error('Ini SFF fax, bukan sprite M.U.G.E.N. Gunakan konverter fax.');
+    }else throw new Error('Format tidak dikenal. Header: "'+sig.replace(/[^\x20-\x7E]/g,'.')+'"');
+
+    sprites=list.filter(s=>s.cv);
+    const bad=list.length-sprites.length;
+    const frag=document.createDocumentFragment();
+    sprites.forEach(s=>{
+      s.name=defName(s);s.sel=true;
+      const cell=document.createElement('div');cell.className='cell';
+      const top=document.createElement('div');top.className='sel';
+      const cb=document.createElement('input');cb.type='checkbox';cb.checked=true;cb.onchange=()=>{s.sel=cb.checked};
+      top.append(cb,`${s.g},${s.it} · ${s.cv.width}×${s.cv.height}`);
+      const t=document.createElement('div');t.className='thumb';t.title='Klik untuk unduh PNG';t.appendChild(s.cv);
+      t.onclick=async()=>save(await toBlob(s.cv),nameOf(s));
+      const inp=document.createElement('input');inp.type='text';inp.value=s.name;inp.oninput=()=>{s.name=inp.value};
+      s.cb=cb;s.inp=inp;
+      cell.append(top,t,inp);
+      frag.appendChild(cell);
+    });
+    grid.appendChild(frag);
+    bar.hidden=!sprites.length;
+    setStatus(`Berhasil: ${sprites.length} sprite terbaca (SFF v${d[15]}).`+(bad?` ${bad} sprite gagal didekode.`:'')+fmtInfo()+' Klik gambar untuk unduh satu PNG, atau pakai tombol Unduh ZIP.',!sprites.length);
+  }catch(e){setStatus(e.message||'Gagal mengonversi file.',true)}
+  finally{const w=800-(Date.now()-t0);if(w>0)await wait(w);hideLoader()}
+}
+
+async function doZip(pick,tag){
+  if(!pick.length){setStatus('Tidak ada frame yang cocok atau terpilih.',true);return}
+  const btns=[zipBtn];btns.forEach(b=>b.disabled=true);showLoader('Menyiapkan ZIP','');const fs=[],used=new Set();
+  for(let i=0;i<pick.length;i++){
+    setProg((i+1)/pick.length,`${i+1} dari ${pick.length} gambar`);
+    let nm=nameOf(pick[i]),k=1;
+    while(used.has(nm.toLowerCase()))nm=nameOf(pick[i]).replace(/\.png$/,`_${k++}.png`);
+    used.add(nm.toLowerCase());
+    fs.push({name:nm,data:new Uint8Array(await (await toBlob(pick[i].cv)).arrayBuffer())});
+  }
+  setProg(1,'Menyusun file ZIP');await nextFrame();save(zip(fs),(clean(($('zipName').value||'').replace(/\.zip$/i,''))||base+'_png')+'.zip');hideLoader();
+  setStatus(`ZIP berisi ${fs.length} PNG siap diunduh.`);btns.forEach(b=>b.disabled=false);
+}
+zipBtn.onclick=()=>doZip(sprites.filter(s=>s.sel),'_png');
+$('apply').onclick=()=>{
+  const p=clean($('prefix').value)||base;let n=parseInt($('start').value)||0;
+  const sel=sprites.filter(s=>s.sel),pad=Math.max(3,String(n+sel.length).length);
+  sel.forEach(s=>{s.name=p+'_'+String(n++).padStart(pad,'0');s.inp.value=s.name});
+};
+$('reset').onclick=()=>sprites.forEach(s=>{s.name=defName(s);s.inp.value=s.name});
+$('all').onchange=e=>sprites.forEach(s=>{s.sel=s.cb.checked=e.target.checked});
+fileInput.onchange=()=>handle(fileInput.files[0]);
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
+drop.addEventListener('drop',e=>handle(e.dataTransfer.files[0]));
+(function(){for(let i=0;i<16;i++){const p=document.createElement('span');p.className='ember';
+p.style.left=Math.random()*100+'vw';p.style.animationDuration=(8+Math.random()*10)+'s';p.style.animationDelay=(-Math.random()*14)+'s';
+p.style.setProperty('--dx',(Math.random()*80-40)+'px');document.body.appendChild(p)}})();
+</script>
+</body>
+</html>
