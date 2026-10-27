@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="author" content="Prince Ryy">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Konverter SFF &amp; SND — M.U.G.E.N</title>
+<title>Konverter SFF, SND &amp; PVR.CCZ</title>
 <style>
-:root{--bg1:#080c14;--bg2:#0e1524;--bg3:#101c30;--card:rgba(20,28,45,.82);--text:#e8eefc;--muted:#8d9bb8;--border:rgba(90,140,255,.28);--accent:#3b82f6;--accent2:#22d3ee;--hot:#f97316;--err:#ff6b6b;--grid:rgba(110,150,255,.06);--ck1:#3a4256;--ck2:#2a3144;--shadow:0 10px 28px rgba(0,0,0,.45)}
-@media(prefers-color-scheme:light){:root{--bg1:#e9eef6;--bg2:#dfe7f2;--bg3:#d4e0ef;--card:rgba(255,255,255,.88);--text:#111827;--muted:#475569;--border:rgba(37,99,235,.28);--accent:#2563eb;--accent2:#0891b2;--hot:#ea580c;--err:#c0264b;--grid:rgba(37,99,235,.06);--ck1:#cfd5e2;--ck2:#e8ebf2;--shadow:0 10px 24px rgba(30,60,120,.18)}}
+:root{--bg1:#070a12;--bg2:#0b1120;--bg3:#0d1526;--card:rgba(16,24,40,.88);--text:#e9eefb;--muted:#93a1bd;--border:rgba(130,165,255,.2);--accent:#4c8dff;--accent2:#2dd4e6;--hot:#ff8a3d;--err:#ff7a7a;--ok:#34d399;--grid:rgba(120,155,255,.04);--ck1:#3a4256;--ck2:#2a3144;--shadow:0 8px 24px rgba(0,0,0,.35)}
+@media(prefers-color-scheme:light){:root{--bg1:#eef2f8;--bg2:#e4eaf4;--bg3:#dbe5f2;--card:rgba(255,255,255,.9);--text:#0f1a2e;--muted:#4b5a73;--border:rgba(37,99,235,.2);--accent:#2563eb;--accent2:#0891b2;--hot:#ea580c;--err:#c0264b;--ok:#059669;--grid:rgba(37,99,235,.045);--ck1:#cfd5e2;--ck2:#e8ebf2;--shadow:0 8px 22px rgba(30,60,120,.14)}}
 [hidden]{display:none!important}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:linear-gradient(160deg,var(--bg1),var(--bg2) 55%,var(--bg3)) fixed;overflow-x:hidden}
@@ -91,58 +91,104 @@ input[type=checkbox]{accent-color:var(--accent)}
 @keyframes twinkle{50%{transform:scale(.4) rotate(45deg);opacity:.5}}
 @media(max-width:640px){.hero{flex-direction:column-reverse;text-align:center}.hero p{margin:0 auto}.steps{justify-content:center}.mascot-box{width:150px}.bubble{max-width:170px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}.ember{display:none}}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.tabs button{flex:1 1 150px;background:var(--card);color:var(--text);border:1px solid var(--border);box-shadow:none;padding:11px 14px}
+.tabs button.on{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(59,130,246,.35)}
+
+/* ---- Polesan tampilan ---- */
+:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+.wrap{max-width:1040px;padding:32px 20px 64px}
+.hero{gap:32px;margin-bottom:28px}
+.hero h1{font-size:clamp(1.7rem,4.6vw,2.5rem);font-weight:800;letter-spacing:-.02em;text-transform:none;background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--text)}
+.hero p{font-size:1rem;line-height:1.6;max-width:480px}
+.steps{gap:0;margin-top:18px}
+.steps li{padding:4px 0;margin-right:12px;background:none;border:0;border-radius:0;font-size:.85rem;font-weight:500;color:var(--muted);display:flex;align-items:center;gap:8px}
+.steps li:not(:last-child):after{content:"";width:22px;height:1px;background:var(--border);margin-left:6px}
+.steps b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:.75rem}
+.mascot-box{width:170px}
+button{padding:10px 18px;border-radius:10px;background:var(--accent);box-shadow:none;text-transform:none;letter-spacing:0;font-size:.9rem;font-weight:700;transition:transform .12s,background .15s,border-color .15s}
+button:hover{background:color-mix(in srgb,var(--accent) 86%,#fff);transform:none}
+button:active{transform:translateY(1px)}
+button.alt{background:transparent;border:1px solid var(--border);color:var(--text)}
+button.alt:hover{background:color-mix(in srgb,var(--accent2) 9%,transparent);border-color:var(--accent2)}
+.tabs{gap:4px;padding:4px;margin:0 0 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;backdrop-filter:blur(6px)}
+.tabs button{flex:1 1 0;display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:10px 16px;border:0;border-radius:10px;background:transparent;color:var(--muted);text-align:left;box-shadow:none}
+.tabs button:hover{background:color-mix(in srgb,var(--accent) 9%,transparent);color:var(--text)}
+.tabs button b{font-size:.95rem;font-weight:700}
+.tabs button small{font-size:.75rem;font-weight:400;opacity:.85}
+.tabs button.on,.tabs button.on:hover{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(76,141,255,.35)}
+.drop{padding:48px 20px;gap:8px;border:1.5px dashed var(--border);border-radius:16px;box-shadow:none}
+.drop:hover,.drop.over{transform:none;box-shadow:none;border-color:var(--accent2);background:color-mix(in srgb,var(--accent2) 7%,var(--card))}
+.drop .ico{display:grid;place-items:center;width:64px;height:64px;margin-bottom:6px;border-radius:16px;font-size:1.8rem;background:color-mix(in srgb,var(--accent) 16%,transparent)}
+.drop strong{font-size:1.1rem;font-weight:700;text-transform:none;letter-spacing:0}
+.status{margin:14px 0;font-size:.92rem}
+.status:empty{min-height:0;margin:10px 0}
+.status:not(:empty){padding:10px 14px;border-radius:10px;color:var(--text);background:color-mix(in srgb,var(--ok) 11%,var(--card));border:1px solid color-mix(in srgb,var(--ok) 35%,transparent);border-left:3px solid var(--ok)}
+.status.error:not(:empty){font-weight:600;background:color-mix(in srgb,var(--err) 11%,var(--card));border-color:color-mix(in srgb,var(--err) 35%,transparent);border-left-color:var(--err)}
+.bar{padding:10px 14px;border-radius:12px;box-shadow:var(--shadow)}
+input[type=text],input[type=number]{border-radius:8px;background:color-mix(in srgb,var(--bg2) 60%,transparent)}
+.grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:18px}
+.cell{padding:8px;border-radius:12px;box-shadow:none}
+.cell:hover{transform:none;border-color:var(--accent2)}
+.cell .sel{padding:0 2px;font-size:.74rem}
+.cell input[type=text]{border-color:transparent;background:transparent;border-radius:6px}
+.cell input[type=text]:hover,.cell input[type=text]:focus{border-color:var(--border);background:color-mix(in srgb,var(--bg2) 70%,transparent)}
+.thumb{height:120px;border-radius:8px}.thumb canvas{max-height:120px}
+.credit{margin-top:44px;letter-spacing:0}
+@media(max-width:640px){.hero p{max-width:none}.steps{justify-content:center}.tabs button{padding:8px 10px}.tabs button small{display:none}.drop{padding:36px 16px}}
+.aho{transform-box:fill-box;transform-origin:15% 100%;animation:wig 3s ease-in-out infinite}
+@keyframes wig{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
 </style>
 </head>
 <body>
 <main class="wrap">
 <header class="hero">
   <div>
-    <h1>Konverter SFF &amp; SND</h1>
-    <p>Ubah sprite M.U.G.E.N (.sff) menjadi gambar PNG, atau sound (.snd) menjadi file WAV. Semua diproses di browser Anda, file tidak diunggah ke mana pun.</p>
+    <h1>Konverter SFF, SND &amp; PVR.CCZ</h1>
+    <p>Pilih tab sesuai jenis file: sprite M.U.G.E.N (.sff) dan atlas cocos2d (.pvr.ccz) menjadi PNG, sound (.snd) menjadi WAV. Semua diproses di browser Anda, file tidak diunggah ke mana pun.</p>
     <ol class="steps"><li><b>1</b> Pilih file</li><li><b>2</b> Lihat / putar hasilnya</li><li><b>3</b> Unduh</li></ol>
   </div>
   <div class="mascot-box" id="mbox" title="Klik aku!">
     <div class="bubble">Prince Ryy 👑</div>
     <svg class="mascot" viewBox="0 0 200 230" aria-hidden="true">
       <defs>
-        <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f4b69"/><stop offset="1" stop-color="#141a2b"/></linearGradient>
-        <radialGradient id="iris" cx=".5" cy=".35" r=".8"><stop offset="0" stop-color="#a5f3ff"/><stop offset="1" stop-color="#0ea5c6"/></radialGradient>
-        <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#d99a14"/></linearGradient>
+        <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a5a86"/><stop offset="1" stop-color="#1a2240"/></linearGradient>
+        <radialGradient id="iris" cx=".5" cy=".3" r=".85"><stop offset="0" stop-color="#9eeeff"/><stop offset="1" stop-color="#2b8fe0"/></radialGradient>
+        <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#e0a018"/></linearGradient>
       </defs>
-      <rect x="88" y="156" width="24" height="26" rx="6" fill="#dcae92"/>
-      <path d="M42 230C44 186 68 172 100 172C132 172 156 186 158 230Z" fill="#10141f"/>
-      <path d="M72 174L100 210L84 230L58 230Z" fill="#1c2436"/>
-      <path d="M128 174L100 210L116 230L142 230Z" fill="#1c2436"/>
-      <path d="M84 174L100 208L116 174Z" fill="#f8fafc"/>
-      <path d="M100 182L84 172L84 192Z" fill="#f97316"/><path d="M100 182L116 172L116 192Z" fill="#f97316"/><circle cx="100" cy="182" r="4" fill="#ea580c"/>
-      <circle cx="100" cy="214" r="2.6" fill="url(#gold)"/><circle cx="100" cy="224" r="2.6" fill="url(#gold)"/>
-      <path d="M50 214L72 204M150 214L128 204" stroke="url(#gold)" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="54" cy="122" r="7" fill="#f2cdb3"/><circle cx="146" cy="122" r="7" fill="#f2cdb3"/>
-      <ellipse cx="100" cy="116" rx="47" ry="46" fill="#f6d7bf"/>
-      <path d="M54 114C54 152 76 172 100 172C124 172 146 152 146 114Z" fill="#f6d7bf"/>
-      <ellipse cx="66" cy="140" rx="8" ry="4.5" fill="#f4a3a0" opacity=".45"/><ellipse cx="134" cy="140" rx="8" ry="4.5" fill="#f4a3a0" opacity=".45"/>
-      <g class="eye"><ellipse cx="78" cy="124" rx="12" ry="9.5" fill="#fff"/><g class="pup"><circle cx="78" cy="124.5" r="7" fill="url(#iris)"/><circle cx="78" cy="124.5" r="3.2" fill="#0b1220"/><circle cx="75.5" cy="122" r="2.2" fill="#fff"/></g><path d="M65 122Q78 113 92 121" stroke="#0b1220" stroke-width="3" fill="none" stroke-linecap="round"/></g>
-      <g class="eye"><ellipse cx="122" cy="124" rx="12" ry="9.5" fill="#fff"/><g class="pup"><circle cx="122" cy="124.5" r="7" fill="url(#iris)"/><circle cx="122" cy="124.5" r="3.2" fill="#0b1220"/><circle cx="119.5" cy="122" r="2.2" fill="#fff"/></g><path d="M108 121Q122 113 135 122" stroke="#0b1220" stroke-width="3" fill="none" stroke-linecap="round"/></g>
-      <path d="M64 110Q78 103 94 109" stroke="#232b42" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-      <path d="M106 109Q122 103 136 110" stroke="#232b42" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-      <path d="M100 132L97 142L103 142" stroke="#c9967a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      <path class="smile" d="M88 150Q100 160 112 150" stroke="#9a5a48" stroke-width="2.8" fill="none" stroke-linecap="round"/><g class="mo"><ellipse cx="100" cy="153" rx="8" ry="6" fill="#7a2e3a"/><ellipse cx="100" cy="156.5" rx="4.5" ry="2.4" fill="#f4a3a0"/></g>
-      <path d="M50 114C42 80 58 48 100 42C142 48 158 80 150 114C146 98 140 86 128 80C112 90 90 82 74 76C62 84 54 98 50 114Z" fill="url(#hair)"/>
-      <path d="M92 42C110 26 136 30 146 50C130 44 114 46 102 58Z" fill="#4a5879"/>
-      <path d="M50 114C48 128 50 136 54 142C58 130 58 122 58 114Z" fill="url(#hair)"/>
-      <path d="M150 114C152 128 150 136 146 142C142 130 142 122 142 114Z" fill="url(#hair)"/>
-      <path d="M70 54L66 30L84 42L100 22L116 42L134 30L130 54Z" fill="url(#gold)" stroke="#b9791a" stroke-width="1.5" stroke-linejoin="round"/>
-      <path d="M71 49L129 49" stroke="#b9791a" stroke-width="2"/>
-      <circle cx="66" cy="30" r="3.6" fill="#22d3ee"/><circle cx="100" cy="22" r="4" fill="#f97316"/><circle cx="134" cy="30" r="3.6" fill="#22d3ee"/>
-      <g transform="translate(24 60)"><path class="sp" d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#22d3ee"/></g>
-      <g transform="translate(182 118)"><path class="sp" style="animation-delay:.8s" d="M0-7Q0 0 7 0Q0 0 0 7Q0 0-7 0Q0 0 0-7Z" fill="#f97316"/></g>
-      <g transform="translate(172 30)"><path class="sp" style="animation-delay:1.5s" d="M0-6Q0 0 6 0Q0 0 0 6Q0 0-6 0Q0 0 0-6Z" fill="#ffe08a"/></g>
+      <path d="M50 229C46 192 70 177 100 177C130 177 154 192 150 229Z" fill="#f97316"/>
+      <path d="M62 229C60 198 78 184 100 184C122 184 140 198 138 229Z" fill="#1f2c50"/>
+      <path d="M87 185L100 206L113 185Z" fill="#fff"/>
+      <path d="M100 190L85 181L85 199Z" fill="#fb923c"/><path d="M100 190L115 181L115 199Z" fill="#fb923c"/><circle cx="100" cy="190" r="4.5" fill="#ea580c"/>
+      <circle cx="100" cy="212" r="2.6" fill="url(#gold)"/><circle cx="100" cy="222" r="2.6" fill="url(#gold)"/>
+      <ellipse cx="62" cy="208" rx="9" ry="13" fill="#1f2c50" transform="rotate(14 62 208)"/><circle cx="58" cy="221" r="7.5" fill="#fde4cf"/>
+      <ellipse cx="138" cy="208" rx="9" ry="13" fill="#1f2c50" transform="rotate(-14 138 208)"/><circle cx="142" cy="221" r="7.5" fill="#fde4cf"/>
+      <circle cx="33" cy="120" r="9" fill="#f7d3bb"/><circle cx="167" cy="120" r="9" fill="#f7d3bb"/>
+      <ellipse cx="100" cy="116" rx="68" ry="60" fill="#fde4cf"/>
+      <path d="M31 112C28 62 62 35 100 35C138 35 172 62 169 112C165 98 160 88 152 80L141 96L127 78L113 97L100 80L87 97L73 78L59 96L48 80C40 88 34 99 31 112Z" fill="url(#hair)"/>
+      <path d="M34 112C32 130 34 142 40 150C44 138 44 126 42 114Z" fill="url(#hair)"/><path d="M166 112C168 130 166 142 160 150C156 138 156 126 158 114Z" fill="url(#hair)"/>
+      <path d="M76 52C90 42 108 42 122 50" stroke="#7d8fc0" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
+      <ellipse cx="50" cy="143" rx="11" ry="6.5" fill="#ff8fa3" opacity=".6"/><ellipse cx="150" cy="143" rx="11" ry="6.5" fill="#ff8fa3" opacity=".6"/>
+      <g class="eye"><ellipse cx="73" cy="121" rx="15" ry="17.5" fill="#fff"/><g class="pup"><circle cx="73" cy="123" r="12" fill="url(#iris)"/><circle cx="73" cy="123" r="6.5" fill="#0b1220"/><circle cx="68.5" cy="117.5" r="4.4" fill="#fff"/><circle cx="78" cy="128.5" r="2.2" fill="#fff"/></g><path d="M56 110Q73 98 90 110" stroke="#0b1220" stroke-width="3.6" fill="none" stroke-linecap="round"/></g>
+      <g class="eye"><ellipse cx="127" cy="121" rx="15" ry="17.5" fill="#fff"/><g class="pup"><circle cx="127" cy="123" r="12" fill="url(#iris)"/><circle cx="127" cy="123" r="6.5" fill="#0b1220"/><circle cx="122.5" cy="117.5" r="4.4" fill="#fff"/><circle cx="132" cy="128.5" r="2.2" fill="#fff"/></g><path d="M110 110Q127 98 144 110" stroke="#0b1220" stroke-width="3.6" fill="none" stroke-linecap="round"/></g>
+      <path class="smile" d="M89 148Q94.5 156 100 149Q105.5 156 111 148" stroke="#8a4a45" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <g class="mo"><ellipse cx="100" cy="151" rx="8.5" ry="7" fill="#7a2e3a"/><ellipse cx="100" cy="155" rx="5" ry="2.8" fill="#ff8fa3"/></g>
+      <g class="aho"><path d="M98 38C92 22 104 11 116 18" stroke="#2f3b64" stroke-width="5" fill="none" stroke-linecap="round"/></g>
+      <g transform="translate(56 38) rotate(-13)"><path d="M0 22L-3 1L11 11L22 -4L33 11L47 1L44 22Z" fill="url(#gold)" stroke="#b9791a" stroke-width="1.6" stroke-linejoin="round"/><circle cx="-3" cy="1" r="3.2" fill="#22d3ee"/><circle cx="22" cy="-4" r="3.6" fill="#f97316"/><circle cx="47" cy="1" r="3.2" fill="#22d3ee"/><path d="M1 17H43" stroke="#b9791a" stroke-width="1.6"/></g>
+      <g transform="translate(22 66)"><path class="sp" d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#22d3ee"/></g>
+      <g transform="translate(182 104)"><path class="sp" style="animation-delay:.8s" d="M0-7Q0 0 7 0Q0 0 0 7Q0 0-7 0Q0 0 0-7Z" fill="#f97316"/></g>
+      <g transform="translate(176 40)"><path class="sp" style="animation-delay:1.5s" d="M0-6Q0 0 6 0Q0 0 0 6Q0 0-6 0Q0 0 0-6Z" fill="#ffe08a"/></g>
     </svg>
   </div>
 </header>
 
-<label id="drop" class="drop"><input type="file" id="file" accept=".sff,.snd" hidden>
-  <span class="ico">📂</span><strong>Seret file .sff atau .snd ke sini</strong><span>atau klik untuk memilih file</span></label>
+<nav class="tabs" role="tablist" aria-label="Jenis konversi">
+  <button type="button" role="tab" data-t="sff" class="on" aria-selected="true"><b>SFF → PNG</b><small>Sprite M.U.G.E.N</small></button>
+  <button type="button" role="tab" data-t="snd" aria-selected="false"><b>SND → WAV</b><small>Sound M.U.G.E.N</small></button>
+  <button type="button" role="tab" data-t="pvr" aria-selected="false"><b>PVR.CCZ → PNG</b><small>Atlas cocos2d</small></button>
+</nav>
+<label id="drop" class="drop"><input type="file" id="file" accept=".sff,.snd,.ccz,.pvr,.zip" multiple hidden>
+  <span class="ico">📂</span><strong id="dropT">Seret file .sff ke sini</strong><span>atau klik untuk memilih file, atau .zip berisi file tersebut</span></label>
 <p id="status" class="status"></p>
 
 <section id="bar" hidden>
@@ -418,6 +464,136 @@ function zip(fs){
   return new Blob([...P,...C,e.buffer],{type:'application/zip'});
 }
 
+/* ---- PVR / PVR.CCZ (cocos2d) ---- */
+const inflate=async(b,f)=>{
+  let err;
+  for(let k=0;k<=8&&k<b.length;k++){   /* CCZ sering punya beberapa byte padding setelah aliran zlib; browser menolaknya */
+    try{return new Uint8Array(await new Response(new Blob([b.subarray(0,b.length-k)]).stream().pipeThrough(new DecompressionStream(f))).arrayBuffer())}catch(e){err=e}
+  }
+  throw err;
+};
+async function unzip(d){
+  const dv=new DataView(d.buffer,d.byteOffset,d.byteLength);let e=d.length-22;
+  while(e>=0&&dv.getUint32(e,true)!==0x06054b50)e--;
+  if(e<0)throw new Error('File ZIP tidak valid.');
+  const n=dv.getUint16(e+10,true),out=[];let p=dv.getUint32(e+16,true);
+  for(let i=0;i<n&&dv.getUint32(p,true)===0x02014b50;i++){
+    const m=dv.getUint16(p+10,true),cs=dv.getUint32(p+20,true),nl=dv.getUint16(p+28,true),xl=dv.getUint16(p+30,true),cl=dv.getUint16(p+32,true),lo=dv.getUint32(p+42,true);
+    const name=new TextDecoder().decode(d.subarray(p+46,p+46+nl));p+=46+nl+xl+cl;
+    if(name.endsWith('/'))continue;
+    const ls=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true),raw=d.subarray(ls,ls+cs);
+    out.push({name:name.split('/').pop(),data:m===0?raw:m===8?await inflate(raw,'deflate-raw'):null});
+  }
+  return out;
+}
+const isPvr=d=>{const t=tag4(d,0);return isImg(d)||t==='ZHKI'||t==='CCZ!'||t==='CCZp'||t==='PVR\x03'||(d.length>48&&tag4(d,44)==='PVR!')};
+let pvrMsg='';
+const isImg=d=>(d[0]===0x89&&tag4(d,0).slice(1)==='PNG')||(d[0]===0xff&&d[1]===0xd8&&d[2]===0xff)||tag4(d,0)==='GIF8'||(tag4(d,0)==='RIFF'&&tag4(d,8)==='WEBP');
+async function imgSprite(d,name){
+  let bmp;try{bmp=await createImageBitmap(new Blob([d]))}catch(e){throw new Error('Gambar di dalam file ini tidak bisa dibaca.')}
+  const c=mk(bmp.width,bmp.height);c.getContext('2d').drawImage(bmp,0,0);
+  pvrMsg=`Berhasil: gambar ${bmp.width}\u00d7${bmp.height} px dibaca. Klik gambar untuk unduh PNG.`;
+  return[{g:0,it:0,cv:c,nm:name||base}];
+}
+const PVRK=Array.from('KurozamenshiHK22',c=>c.charCodeAt(0)),PVRX=/\.(pvr\.ccz|pvr|ccz)$/i;
+function rawPix(s,w,h,ch,bits){
+  const tb=bits.reduce((a,b)=>a+b,0),bp=tb>>3,pk=tb===16&&bits[0]<8,out=new Uint8ClampedArray(w*h*4),hc=/[rgbli]/.test(ch);
+  for(let i=0;i<w*h;i++){
+    const o=i*bp,q=i*4,v=bp>1?s[o]|s[o+1]<<8:0;let sh=16;
+    out[q+3]=255;if(!hc)out[q]=out[q+1]=out[q+2]=255;
+    for(let k=0;k<ch.length;k++){
+      let x;if(pk){sh-=bits[k];const m=(1<<bits[k])-1;x=(v>>sh&m)*255/m}else x=s[o+k];
+      const c=ch[k];
+      if(c==='a')out[q+3]=x;else if(c==='l'||c==='i')out[q]=out[q+1]=out[q+2]=x;else out[q+'rgb'.indexOf(c)]=x;
+    }
+  }
+  return out;
+}
+function twid(xs,ys,x,y){let m=Math.min(xs,ys),mx=ys<xs?x:y,t=0,sb=1,db=1,sc=0;
+  while(sb<m){if(y&sb)t|=db;db<<=1;if(x&sb)t|=db;sb<<=1;db<<=1;sc++}
+  return t|((mx>>sc)<<(2*sc))}
+function pvrtc4(d,o,w,h){
+  const bw=w>>2,bh=h>>2,n=bw*bh,A=new Float32Array(n*4),B=new Float32Array(n*4),M=new Uint32Array(n),F=new Uint8Array(n);
+  const e5=v=>v<<3|v>>2,e4=v=>v*17,e3=v=>v*255/7;
+  for(let by=0;by<bh;by++)for(let bx=0;bx<bw;bx++){
+    const p=o+twid(bw,bh,bx,by)*8,c=u32(d,p+4),i=by*bw+bx,a=(c&0xfffe)>>1,b=c>>>16,t=a&15,u=a&7;
+    M[i]=u32(d,p);F[i]=c&1;
+    A.set(a&0x4000?[e5(a>>9&31),e5(a>>4&31),e5(t<<1|t>>3),255]:[e4(a>>7&15),e4(a>>3&15),e5(u<<2|u>>1),e3(a>>11&7)],i*4);
+    B.set(b&0x8000?[e5(b>>10&31),e5(b>>5&31),e5(b&31),255]:[e4(b>>8&15),e4(b>>4&15),e4(b&15),e3(b>>12&7)],i*4);
+  }
+  const out=new Uint8ClampedArray(w*h*4),W0=[0,3,5,8],W1=[0,4,4,8],md=(v,k)=>((v%k)+k)%k;
+  for(let y=0;y<h;y++){
+    const v=y-2,y0=Math.floor(v/4),fy=md(v,4),ya=md(y0,bh),yb=(ya+1)%bh;
+    for(let x=0;x<w;x++){
+      const u=x-2,x0=Math.floor(u/4),fx=md(u,4),xa=md(x0,bw),xb=(xa+1)%bw;
+      const i0=(ya*bw+xa)*4,i1=(ya*bw+xb)*4,i2=(yb*bw+xa)*4,i3=(yb*bw+xb)*4;
+      const w0=(4-fx)*(4-fy),w1=fx*(4-fy),w2=(4-fx)*fy,w3=fx*fy;
+      const bi=(y>>2)*bw+(x>>2),m=(M[bi]>>>(((y&3)*4+(x&3))*2))&3,f=(F[bi]?W1:W0)[m],q=(y*w+x)*4;
+      for(let c=0;c<4;c++){
+        const a=(A[i0+c]*w0+A[i1+c]*w1+A[i2+c]*w2+A[i3+c]*w3)/16,b=(B[i0+c]*w0+B[i1+c]*w1+B[i2+c]*w2+B[i3+c]*w3)/16;
+        out[q+c]=a+(b-a)*f/8;
+      }
+      if(F[bi]&&m===2)out[q+3]=0;
+    }
+  }
+  return out;
+}
+const ET=[[2,8],[5,17],[9,29],[13,42],[18,60],[24,80],[33,106],[47,183]];
+function etc1(d,o,w,h){
+  const out=new Uint8ClampedArray(w*h*4),x5=v=>v<<3|v>>2,sx=v=>v<<29>>29;
+  for(let by=0;by<h;by+=4)for(let bx=0;bx<w;bx+=4){
+    const p=o+((by>>2)*(w>>2)+(bx>>2))*8,b3=d[p+3],fl=b3&1,t1=ET[b3>>5],t2=ET[b3>>2&7];let c1,c2;
+    if(b3&2){c1=[0,1,2].map(i=>d[p+i]>>3);c2=c1.map((v,i)=>v+sx(d[p+i]&7));c1=c1.map(x5);c2=c2.map(x5)}
+    else{c1=[0,1,2].map(i=>(d[p+i]>>4)*17);c2=[0,1,2].map(i=>(d[p+i]&15)*17)}
+    const msb=d[p+4]<<8|d[p+5],lsb=d[p+6]<<8|d[p+7];
+    for(let x=0;x<4;x++)for(let y=0;y<4;y++){
+      const k=x*4+y,s=fl?y>>1:x>>1,t=s?t2:t1,c=s?c2:c1,i=(msb>>k&1)<<1|(lsb>>k&1),m=(i&2?-1:1)*t[i&1],q=((by+y)*w+bx+x)*4;
+      for(let j=0;j<3;j++)out[q+j]=c[j]+m;
+      out[q+3]=255;
+    }
+  }
+  return out;
+}
+async function parsePvr(d,name){
+  let zh=false;
+  if(tag4(d,0)==='ZHKI'){
+    d=d.subarray(4).map((v,i)=>v^PVRK[i%16]);zh=true;
+    if(!['CCZ!','CCZp','PVR\x03'].includes(tag4(d,0))&&tag4(d,44)!=='PVR!')throw new Error('File berpenanda ZHKI tidak bisa didekripsi dengan kunci bawaan.');
+  }
+  if(tag4(d,0)==='CCZp')throw new Error('File CCZ ini terenkripsi (CCZp), butuh kunci dan tidak bisa dibuka.');
+  if(tag4(d,0)==='CCZ!'){
+    const t=d[4]<<8|d[5],body=d.subarray(16);
+    try{d=t===0?await inflate(body,'deflate'):t===2?await inflate(body,'gzip'):t===3?body:null}
+    catch(e){
+      let bad=false;for(let i=0;i<64&&i+2<d.length;i++)if(d[i]===0xef&&d[i+1]===0xbf&&d[i+2]===0xbd){bad=true;break}
+      throw new Error(bad?'File CCZ rusak: byte di awal data terkompresi sudah berubah menjadi tanda pengganti (U+FFFD), biasanya karena file tersimpan atau terkirim sebagai teks. Ambil ulang file aslinya, atau bungkus dalam ZIP sebelum dikirim.':'Data CCZ tidak bisa didekompres (file rusak atau terpotong).');
+    }
+    if(!d)throw new Error('Kompresi CCZ tipe '+t+' tidak didukung.');
+  }
+  if(isImg(d))return imgSprite(d,name);
+  let w,h,off,fmt,ch,bits,nm,v3=tag4(d,0)==='PVR\x03';
+  if(v3){
+    const lo=u32(d,8),hi=u32(d,12);h=u32(d,24);w=u32(d,28);off=52+u32(d,48);
+    if(hi===0)fmt=lo;else{ch=String.fromCharCode(...[0,1,2,3].map(i=>d[8+i]).filter(Boolean));bits=[0,1,2,3].map(i=>d[12+i]).filter(Boolean);fmt='raw'}
+  }else if(d.length>52&&tag4(d,44)==='PVR!'){
+    h=u32(d,4);w=u32(d,8);off=u32(d,0);const t=u32(d,16)&255;
+    const P={0x10:['rgba',[4,4,4,4]],0x11:['rgba',[5,5,5,1]],0x12:['rgba',[8,8,8,8]],0x13:['rgb',[5,6,5]],0x15:['rgb',[8,8,8]],0x16:['l',[8]],0x17:['la',[8,8]],0x1a:['bgra',[8,8,8,8]],0x1b:['a',[8]]};
+    if(P[t]){[ch,bits]=P[t];fmt='raw'}else fmt=t===0x19?3:t===0x18?1:-1;
+  }else throw new Error('Isi file bukan PVR atau gambar yang dikenal (header: '+[...d.slice(0,8)].map(b=>b.toString(16).padStart(2,'0')).join(' ')+').');
+  if(!w||!h||w>16384||h>16384)throw new Error('Ukuran gambar PVR tidak valid.');
+  if(fmt==='raw'){nm=ch.toUpperCase()+bits.join('')}
+  else if(fmt===2||fmt===3){nm='PVRTC 4bpp';if((w&(w-1))||(h&(h-1))||w<8||h<8)throw new Error('PVRTC harus berukuran pangkat dua (min. 8 px).')}
+  else if(fmt===6){nm='ETC1';if(w%4||h%4)throw new Error('Ukuran ETC1 harus kelipatan 4.')}
+  else throw new Error(fmt===0||fmt===1?'Format PVRTC 2bpp belum didukung.':'Format piksel PVR ('+fmt+') belum didukung.');
+  const need=fmt==='raw'?w*h*(bits.reduce((a,b)=>a+b,0)>>3):w*h/2;
+  if(off+need>d.length)throw new Error('File PVR terpotong atau rusak.');
+  await nextFrame();
+  const px=fmt==='raw'?rawPix(d.subarray(off),w,h,ch,bits):fmt===6?etc1(d,off,w,h):pvrtc4(d,off,w,h);
+  const c=mk(w,h);c.getContext('2d').putImageData(new ImageData(px,w,h),0,0);
+  pvrMsg=`Berhasil: ${w}\u00d7${h} px dikonversi dari ${v3?'PVR3':'PVR2'} (${nm}${zh?', dekripsi XOR':''}). Klik gambar untuk unduh PNG.`;
+  return[{g:0,it:0,cv:c,nm:name||base}];
+}
+
 /* ---- UI ---- */
 const statusEl=$('status'),grid=$('grid'),zipBtn=$('zipBtn'),drop=$('drop'),fileInput=$('file');
 let sprites=[],base='sprite',kind='sff';
@@ -461,24 +637,56 @@ document.addEventListener('pointermove',e=>{
     v.querySelectorAll('.pup').forEach(p=>p.setAttribute('transform',t));
   });
 });
-setTimeout(()=>heroSay('Halo! Seret file .sff atau .snd ya 👋',4000),700);
+setTimeout(()=>heroSay('Halo! Seret file .sff, .snd, atau .pvr.ccz ya 👋',4000),700);
 const clean=n=>n.replace(/[\\/:*?"<>|]/g,'_').replace(/\.(png|wav)$/i,'').trim();
-const defName=s=>`${base}_${s.g}-${s.it}`;
+const defName=s=>s.nm||`${base}_${s.g}-${s.it}`;
 const nameOf=s=>(clean(s.name||'')||defName(s))+(s.wav?'.wav':'.png');
 const toBlob=c=>new Promise(r=>c.toBlob(r,'image/png'));
 function save(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 
-async function handle(file){
+/* ---- Tab ---- */
+const TABS={
+  sff:{label:'SFF → PNG',name:'SFF',ext:'.sff',re:/\.sff$/i,acc:'.sff,.zip',txt:'Seret file .sff (sprite M.U.G.E.N) ke sini'},
+  snd:{label:'SND → WAV',name:'SND',ext:'.snd',re:/\.snd$/i,acc:'.snd,.zip',txt:'Seret file .snd (sound M.U.G.E.N) ke sini'},
+  pvr:{label:'PVR.CCZ → PNG',name:'PVR.CCZ',ext:'.pvr.ccz',re:/\.(pvr\.ccz|ccz|pvr)$/i,acc:'.ccz,.pvr,.zip',txt:'Seret file .pvr.ccz (atlas cocos2d) ke sini'}
+};
+let curTab='sff';const TS={};
+function applyTabUI(t){
+  document.querySelectorAll('.tabs button').forEach(b=>{const on=b.dataset.t===t;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)});
+  $('dropT').textContent=TABS[t].txt;fileInput.accept=TABS[t].acc;fileInput.multiple=t==='pvr';
+}
+function setTab(t){
+  if(t===curTab||!TABS[t])return;
+  player.pause();playing=null;document.querySelectorAll('.pbtn').forEach(b=>b.textContent='\u25B6');
+  const f=document.createDocumentFragment();while(grid.firstChild)f.appendChild(grid.firstChild);
+  TS[curTab]={sprites,kind,base,frag:f,st:statusEl.textContent,err:statusEl.classList.contains('error'),zip:$('zipName').value,tip:$('tip').textContent,bh:bar.hidden};
+  curTab=t;const s=TS[t];
+  if(s){sprites=s.sprites;kind=s.kind;base=s.base;grid.appendChild(s.frag);bar.hidden=s.bh;$('zipName').value=s.zip;$('tip').textContent=s.tip;setStatus(s.st,s.err)}
+  else{sprites=[];kind=t==='snd'?'snd':'sff';bar.hidden=true;setStatus('')}
+  $('all').checked=true;applyTabUI(t);
+}
+
+async function handle(arg){
+  const files=arg&&arg.length!==undefined&&!arg.name?[...arg]:[arg],file=files[0];
   if(!file)return;
   player.pause();playing=null;sprites.forEach(s=>s.url&&URL.revokeObjectURL(s.url));
   grid.innerHTML='';bar.hidden=true;$('all').checked=true;sprites=[];kind='sff';
-  base=file.name.replace(/\.(sff|snd)$/i,'');
+  base=file.name.replace(/\.(sff|snd|pvr\.ccz|pvr|ccz|zip)$/i,'');
   setStatus('');showLoader('Membaca file','Mohon tunggu sebentar');const t0=Date.now();for(const k in FM)delete FM[k];await nextFrame();
   try{
-    const d=new Uint8Array(await file.arrayBuffer());
+    const items=[];
+    for(const f of files){
+      const b=new Uint8Array(await f.arrayBuffer());
+      if(/\.zip$/i.test(f.name)||tag4(b,0)==='PK\x03\x04'){for(const z of await unzip(b))if(z.data&&TABS[curTab].re.test(z.name))items.push({name:z.name,d:z.data})}
+      else items.push({name:f.name,d:b});
+    }
+    if(!items.length)throw new Error('Tidak ada file '+TABS[curTab].ext+' di dalam ZIP.');
+    const d=items[0].d;
     const sig=String.fromCharCode(...d.slice(0,11));
     let list;
-    if(sig==='ElecbyteSpr'){
+    const ty=isPvr(d)?'pvr':sig==='ElecbyteSpr'?'sff':sig==='ElecbyteSnd'?'snd':null;
+    if(ty&&ty!==curTab)throw new Error('File ini berformat '+TABS[ty].name+'. Buka tab "'+TABS[ty].label+'" untuk mengonversinya.');
+    if(isPvr(d)){kind='pvr';list=[];for(const it of items)list.push(...await parsePvr(it.d,it.name.replace(PVRX,'')));if(items.length>1)pvrMsg=`Berhasil: ${list.length} gambar PVR dikonversi. Klik gambar untuk unduh PNG, atau pakai tombol Unduh ZIP.`}else if(sig==='ElecbyteSpr'){
       const ver=d[15];
       if(ver===1)list=parseV1(d);else if(ver===2)list=await parseV2(d);
       else throw new Error('Versi SFF M.U.G.E.N tidak dikenal: '+ver);
@@ -510,7 +718,7 @@ async function handle(file){
         dl=document.createElement('button');dl.type='button';dl.className='mini alt';dl.textContent='\u2B07 WAV';
         dl.onclick=()=>save(new Blob([s.wav],{type:'audio/wav'}),nameOf(s));
       }else{
-        top.append(cb,`${s.g},${s.it} · ${s.cv.width}×${s.cv.height}`);
+        top.append(cb,(s.nm?'':`${s.g},${s.it} · `)+`${s.cv.width}×${s.cv.height}`);
         t.title='Klik untuk unduh PNG';t.appendChild(s.cv);
         t.onclick=async()=>save(await toBlob(s.cv),nameOf(s));
       }
@@ -522,7 +730,7 @@ async function handle(file){
     grid.appendChild(frag);
     bar.hidden=!sprites.length;
     setStatus(kind==='snd'?`Berhasil: ${sprites.length} sound terbaca (SND).`+(bad?` ${bad} sound kosong/rusak dilewati.`:'')+' Putar untuk mendengarkan, atau pakai tombol Unduh ZIP.':`Berhasil: ${sprites.length} sprite terbaca (SFF v${d[15]}).`+(bad?` ${bad} sprite gagal didekode.`:'')+fmtInfo()+' Klik gambar untuk unduh satu PNG, atau pakai tombol Unduh ZIP.',!sprites.length);
-  }catch(e){setStatus(e.message||'Gagal mengonversi file.',true)}
+  if(kind==='pvr'&&sprites.length)setStatus(pvrMsg);}catch(e){setStatus(e.message||'Gagal mengonversi file.',true)}
   finally{const w=800-(Date.now()-t0);if(w>0)await wait(w);hideLoader()}
   heroSay(statusEl.classList.contains('error')?'Waduh, ada masalah 😵':kind==='snd'?`${sprites.length} sound siap! 🎧`:`${sprites.length} sprite siap! 🎉`);
 }
@@ -554,10 +762,12 @@ $('apply').onclick=()=>{
 };
 $('reset').onclick=()=>sprites.forEach(s=>{s.name=defName(s);s.inp.value=s.name});
 $('all').onchange=e=>sprites.forEach(s=>{s.sel=s.cb.checked=e.target.checked});
-fileInput.onchange=()=>handle(fileInput.files[0]);
+fileInput.onchange=()=>{const f=[...fileInput.files];fileInput.value='';handle(f)};
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setTab(b.dataset.t));
+applyTabUI('sff');
 ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
 ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
-drop.addEventListener('drop',e=>handle(e.dataTransfer.files[0]));
+drop.addEventListener('drop',e=>handle([...e.dataTransfer.files]));
 (function(){for(let i=0;i<16;i++){const p=document.createElement('span');p.className='ember';
 p.style.left=Math.random()*100+'vw';p.style.animationDuration=(8+Math.random()*10)+'s';p.style.animationDelay=(-Math.random()*14)+'s';
 p.style.setProperty('--dx',(Math.random()*80-40)+'px');document.body.appendChild(p)}})();
